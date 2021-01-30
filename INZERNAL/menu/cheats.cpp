@@ -7,75 +7,8 @@
 void menu::cheats_tab() {
     auto local = sdk::GetGameLogic()->GetLocalPlayer();
 
-    //   no longer a private feature
-    if (ImGui::Button("Send nazi slime")) {
-        auto pos = local->GetPos();
-        local->send_nazi_slime(int(pos.x / 32.f) - 3, int(pos.y / 32.f) - 3);
-    }
-
     //SELF TODO:
-    //Add proper changelog in github projects
     //Red punch shit
-    //Actually cleanup shit
-    //Respond to stuff in discussions
-    //TODO//TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-    //TODO
-
-
-    //commented for now - added too many things and things are pretty messy ATM
-    /*   static types::time timer2 = std::chrono::system_clock::now();
-    if (local && utils::run_at_interval(timer2, 0.1)) {
-          GameUpdatePacket packet{ 0 };
-          packet.type = PACKET_ON_STEP_ON_TILE_MOD;
-          packet.int_data = 3728;
-          packet.netid = 2;
-          packet.int_x = INT_MAX;
-          packet.int_y = INT_MIN;
-          gt::send(&packet);
-    }*/
-
-    //if (sdk::GetGameLogic()->GetNetObjMgr()) {
-    //    for (auto pair : sdk::GetGameLogic()->GetNetObjMgr()->players) {
-    //        ImGui::Text("NetID: %d, Name: %s\n", pair.first, pair.second->name.c_str());
-    //    }
-    //}
-    /*if (ImGui::Button("rape shit")) {
-        auto pos = local->GetPos();
-        GameUpdatePacket packet{ 0 };
-        packet.type = PACKET_ON_STEP_ON_TILE_MOD;
-        packet.int_data = 3728;
-        packet.int_x = -2;
-        packet.int_y = -2;
-        gt::send(&packet);
-    }
-    if (ImGui::Button("Test")) {
-        GameUpdatePacket packet{ 0 };
-        packet.type = PACKET_SET_ICON_STATE;
-        packet.netid = utils::random(INT_MIN, -4);
-        packet.int_x = utils::random(INT_MIN, INT_MAX);
-        packet.int_y = utils::random(INT_MIN, INT_MAX);
-        packet.int_data = utils::random(INT_MIN, INT_MAX);
-        packet.flags = utils::random(INT_MIN, INT_MAX);
-        packet.item = utils::random(INT_MIN, INT_MAX);
-        gt::send(&packet);
-    }*/
-
-    static bool bubble = false;
-    ImGui::Checkbox("Bubble spam", &bubble);
 
     //commented for now - added too many things and things are pretty messy ATM
     //TODO: move to enhancements or smth
@@ -90,21 +23,7 @@ void menu::cheats_tab() {
 
     //    gt::send(type, copy, true);
     //}
-    ImGui::Checkbox("Local building", &sdk::GetGameLogic()->local_building);
-
-    static types::time timer = std::chrono::system_clock::now();
-    if (bubble && utils::run_at_interval(timer, 0.2) && sdk::GetGameLogic()->GetNetObjMgr()->players.size() >= 1) {
-        GameUpdatePacket packet{ 0 };
-        packet.type = PACKET_SET_ICON_STATE;
-        packet.flags = 8;
-        for (auto pair : sdk::GetGameLogic()->GetNetObjMgr()->players) {
-            packet.netid = pair.first;
-            packet.int_x = utils::random(0, 2);
-            gt::send(&packet);
-        }
-    }
-
-
+    
     //commented for now - added too many things and things are pretty messy ATM
     /*   static SurfaceAnim* surfaceanim = nullptr;
     if (!surfaceanim && global::app) {
@@ -113,28 +32,8 @@ void menu::cheats_tab() {
             surfaceanim = mgr->GetSurfaceAnim("game/tiles_page4.rttex");
     }*/
 
-    //static types::time time = std::chrono::system_clock::now();
-    //if (local && utils::run_at_interval(time, 0.10f, true, 0.05f)) {
-    //    auto pos = local->GetPos();
-    //    GameUpdatePacket packet{ 0 };
-    //    packet.type = PACKET_ON_STEP_ON_TILE_MOD;
-    //    packet.int_data = 3728;
-    //    //   packet.flags = utils::random(0, INT_MAX);
-    //    // packet.item = utils::random(0, INT_MAX);
-    //    packet.int_x = int(pos.x / 32.f) + utils::random(-2, 2);
-    //    packet.int_y = int(pos.y / 32.f) + utils::random(-2, 2);
-    //    gt::send(&packet);
-    //    packet.int_x += utils::random(-1, 1);
-    //    packet.int_y += utils::random(-1, 1);
-    //    gt::send(&packet);
 
-    //    packet.int_x += utils::random(-1, 1);
-    //    packet.int_y += utils::random(-1, 1);
-    //    gt::send(&packet);
-    //}
-
-    
-    
+   
     //commented for now - added too many things and things are pretty messy ATM
     //tldr texture drawing 
     //if (surfaceanim) {
@@ -156,17 +55,19 @@ void menu::cheats_tab() {
     //        ImVec2(1 - ((size.y + size.y) / texture.m_height), size.y / texture.m_height));
     //}
 
+    bool dash, charge, cancel;
+
     imwrap::prep_columns(6);
     imwrap::checkbox("TP on click", opt::cheat::tp_click, "Teleports to cursor position when you press ctrl + left click");
-    bool dash = imwrap::checkbox("Dashing", opt::cheat::dash, "Allows you to double tap to dash in any direction");
+    dash = imwrap::checkbox("Dashing", opt::cheat::dash, "Allows you to double tap to dash in any direction");
 
     ImGui::NextColumn();
-    imwrap::checkbox("Block SPR", opt::cheat::block_sendpacketraw, "Sendpacketraw. Basically full-on ghost, but a bit more crude than actual ghost.");
-    bool charge = imwrap::checkbox("Jump charge", opt::cheat::jump_charge, "Switches your jumping mode to being charging, holding means higher jump");
+    imwrap::checkbox("Block SPR", opt::cheat::block_sendpacketraw, "Blocks Sendpacketraw. Basically full-on ghost, but a bit more crude than actual ghost");
+    charge = imwrap::checkbox("Jump charge", opt::cheat::jump_charge, "Switches your jumping mode to being charging, holding means higher jump");
 
     ImGui::NextColumn();
     imwrap::checkbox("Mod zoom", opt::cheat::mod_zoom, "Allows you to zoom as far out as you want to, like mods");
-    bool cancel = imwrap::checkbox("Jump cancel", opt::cheat::jump_cancel, "You can tap W in air to instantly change your ascent to starting descent");
+    cancel = imwrap::checkbox("Jump cancel", opt::cheat::jump_cancel, "You can tap W in air to instantly change your ascent to starting descent");
 
     ImGui::NextColumn();
     imwrap::checkbox("Dev zoom", opt::cheat::dev_zoom, "Same as mod zoom but allows you to place and build far away too.\nWhich can ban btw.");
@@ -182,6 +83,8 @@ void menu::cheats_tab() {
     ImGui::NextColumn();
     imwrap::checkbox("See ghosts", opt::cheat::see_ghosts, "Allows you to see ghosts as the name says\nDoesn't work with antighost.");
     imwrap::checkbox("See fruits", opt::cheat::see_fruits, "See how many fruits a tree will have before it has grown fully.");
+    imwrap::checkbox("Local building", sdk::GetGameLogic()->local_building,
+        "Allows you to build locally.\nYou will not send packets when placing things, and can place consumables, etc");
 
     ImGui::Columns(1, nullptr, false);
     ImGui::PopStyleVar();
@@ -214,7 +117,7 @@ void menu::cheats_tab() {
 
     static bool isConstOn = false;
 
-    if (ImGui::BeginChild("###Constants", isConstOn ? AUTOSIZEC(6) : AUTOSIZEC(2), true, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar)) {
+    if (ImGui::BeginChild("###Constants", isConstOn ? AUTOSIZEC(10) : AUTOSIZEC(2), true, ImGuiWindowFlags_HorizontalScrollbar | ImGuiWindowFlags_MenuBar)) {
         ImGui::BeginMenuBar();
         ImGui::Text("Game constants");
         ImGui::EndMenuBar();

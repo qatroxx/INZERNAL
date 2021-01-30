@@ -120,56 +120,6 @@ GTClass NetAvatar { //how fucking annoying it is to get align to work
         SetPos(x * 32.0f + 8.0f, y * 32.0f);
     }
 
-    //was a private feature before but now that its been leaked it will be public
-    void send_nazi_slime(int x, int y) {
-        GameUpdatePacket packet{ 0 };
-        packet.type = 46;
-        packet.int_data = 3728;
-        auto do_stuff = [&](auto x, auto y) {
-
-            packet.int_x = x;
-            packet.int_y = y;
-            for (int i = 0; i < 5; i++) {
-                gt::send(&packet);
-            }
-        };
-
-        do_stuff(x, y);
-        do_stuff(x, y + 1);
-        do_stuff(x, y + 2);
-        do_stuff(x, y + 3);
-        do_stuff(x, y + 4);
-
-        do_stuff(x + 1, y + 4);
-        do_stuff(x + 2, y + 4);
-        do_stuff(x + 3, y + 4);
-        do_stuff(x + 4, y + 4);
-        do_stuff(x + 5, y + 4);
-        do_stuff(x + 6, y + 4);
-
-        do_stuff(x + 6, y + 4);
-        do_stuff(x + 6, y + 5);
-        do_stuff(x + 6, y + 6);
-        do_stuff(x + 6, y + 7);
-
-        do_stuff(x + 6, y);
-        do_stuff(x + 5, y);
-        do_stuff(x + 4, y);
-        do_stuff(x + 3, y);
-
-        do_stuff(x + 3, y + 1);
-        do_stuff(x + 3, y + 2);
-        do_stuff(x + 3, y + 3);
-
-        do_stuff(x + 3, y + 5);
-        do_stuff(x + 3, y + 6);
-        do_stuff(x + 3, y + 7);
-
-        do_stuff(x + 2, y + 7);
-        do_stuff(x + 1, y + 7);
-        do_stuff(x, y + 7);
-    }
-
     //for local only
     CL_Vec2f GetPos() {
         //returning the encrypted one cuz its 100% what the server has

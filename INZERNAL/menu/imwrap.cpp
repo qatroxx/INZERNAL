@@ -86,7 +86,7 @@ bool imwrap::fchanger(const char* label, float& variable, bool& toggle, float mi
 
 void imwrap::prep_columns(int count) {
     auto& style = ImGui::GetStyle();
-    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ style.WindowPadding.x, style.ItemSpacing.y });
+    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ style.WindowPadding.x * 0.85f, style.ItemSpacing.y });
     ImGui::Columns(count, nullptr, false);
     float group_w = ImGui::GetCurrentWindow()->Size.x - style.WindowPadding.x * 2;
     float col_w = group_w / (float)count;

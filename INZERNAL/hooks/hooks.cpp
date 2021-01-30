@@ -18,6 +18,7 @@ LPVOID hooks::endscene;
 
 hookmanager* hookmgr = new hookmanager();
 bool canrender = false;
+IDirect3DDevice9* device = nullptr;
 
 void hooks::init_endscene() {
     if (global::d9init)
@@ -31,24 +32,63 @@ void hooks::init_endscene() {
     //source for s_RenderD3D9: https://github.com/bkaradzic/bgfx/blob/master/src/renderer_d3d9.cpp
     //the dx9 rendering device that GT (bgfx) uses as well
 
-    auto m_d3d9ex = *(IDirect3D9Ex**)(s_renderD3D9 + 312);
+    static types::time timer = std::chrono::system_clock::now();
+    static int tries = 0;
+    if (tries > 0 && utils::run_at_interval(timer, 0.2f)) //Possibly fix crash things when using patcher
+        return;
+  
+
+    tries++;
     void** vtable = nullptr;
-    if (m_d3d9ex) { //bgfx proefers m_deviceEx if m_d3d9ex exists
-        auto m_deviceEx = *(IDirect3DDevice9Ex**)(s_renderD3D9 + 320);
-        if (!m_deviceEx) {
+
+    if (tries >= 3) {
+        IDirect3D9* pD3D = Direct3DCreate9(D3D_SDK_VERSION);
+
+        if (!pD3D) {
+            printf("Failed Direct3DCreate9 even after 3 tries of trying to use bgfx\n");
+            return;
+        }
+           
+      
+        D3DPRESENT_PARAMETERS d3dpp{ 0 };
+        d3dpp.hDeviceWindow = global::hwnd;
+        d3dpp.SwapEffect = D3DSWAPEFFECT_COPY;
+        d3dpp.Windowed = TRUE;
+        d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_ONE; //vsync
+        d3dpp.FullScreen_RefreshRateInHz = 0;
+        if (FAILED(pD3D->CreateDevice(0, D3DDEVTYPE_HAL, d3dpp.hDeviceWindow, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &device))) {
+            printf("Failed CreateDevice even after 3 tries of trying to use bgfx\n");
+            pD3D->Release();
+            return;
+        }
+        vtable = *reinterpret_cast<void***>(device);
+
+    }
+    else {
+        auto m_d3d9ex = *(IDirect3D9Ex**)(s_renderD3D9 + 312);
+        if (m_d3d9ex) { //bgfx prefers m_deviceEx if m_d3d9ex exists
+                        //theoretically m_device should be set even if m_d3d9ex exists, i have no clue why this is needed
+
+            auto m_deviceEx = *(IDirect3DDevice9Ex**)(s_renderD3D9 + 320);
+            if (!m_deviceEx) {
+                auto m_device = *(IDirect3DDevice9**)(s_renderD3D9 + 336);
+                if (!m_device)
+                    return;
+                vtable = *reinterpret_cast<void***>(m_device);
+            }
+            vtable = *reinterpret_cast<void***>(m_deviceEx);
+        }
+        else {
             auto m_device = *(IDirect3DDevice9**)(s_renderD3D9 + 336);
             if (!m_device)
                 return;
             vtable = *reinterpret_cast<void***>(m_device);
         }
-        vtable = *reinterpret_cast<void***>(m_deviceEx);
     }
-    else {
-        auto m_device = *(IDirect3DDevice9**)(s_renderD3D9 + 336);
-        if (!m_device)
-            return;
-        vtable = *reinterpret_cast<void***>(m_device);
-    }
+
+
+  
+
     if (!vtable)
         return;
     global::d9init = true;

@@ -67,14 +67,12 @@ std::string gt::get_type_string(uint8_t type) {
         "PACKET_SET_ICON_STATE", "PACKET_ITEM_EFFECT", "PACKET_SET_CHARACTER_STATE", "PACKET_PING_REPLY", "PACKET_PING_REQUEST", "PACKET_GOT_PUNCHED",
         "PACKET_APP_CHECK_RESPONSE", "PACKET_APP_INTEGRITY_FAIL", "PACKET_DISCONNECT", "PACKET_BATTLE_JOIN", "PACKET_BATTLE_EVENT", "PACKET_USE_DOOR",
         "PACKET_SEND_PARENTAL", "PACKET_GONE_FISHIN", "PACKET_STEAM", "PACKET_PET_BATTLE", "PACKET_NPC", "PACKET_SPECIAL", "PACKET_SEND_PARTICLE_EFFECT_V2",
-        "PACKET_ACTIVE_ARROW_TO_ITEM", "PACKET_SELECT_TILE_INDEX", "PACKET_SEND_PLAYER_TRIBUTE_DATA", "PACKET_SET_EXTRA_MODS", "PACKET_ON_STEP_ON_TILE_MOD",
-        "PACKET_ERRORTYPE" };
+        "PACKET_ACTIVE_ARROW_TO_ITEM", "PACKET_SELECT_TILE_INDEX", "PACKET_SEND_PLAYER_TRIBUTE_DATA", "PACKET_PVE_UNK1", "PACKET_PVE_UNK2", "PACKET_PVE_UNK3",
+        "PACKET_PVE_UNK4", "PACKET_PVE_UNK5", "PACKET_SET_EXTRA_MODS", "PACKET_ON_STEP_ON_TILE_MOD", "PACKET_ERRORTYPE" };
 
-    if (type >= PACKET_MAXVAL)
+    constexpr auto size = sizeof(types) / sizeof(const char*) - 1;
+    if (type >= PACKET_MAXVAL || type >= size)
         type = PACKET_MAXVAL - 1; //will set any unknown type as errortype and keep us from crashing
-
-    if (type > 43)
-        return "PACKET_FIXMELATER";
 
     return types[type];
 }
@@ -122,7 +120,6 @@ void gt::decrypt_reg_vals() {
         printf("failed at reading reg value %s!\n", key);
         return;
     }
-
 
     auto hashc = gt::decrypt_piece(data, data_len - 1, 25532);
     auto hash = utils::format("%s", data);
@@ -268,7 +265,8 @@ bool gt::patch_mutex() {
     static auto mutex2 = sigs::get(sig::mutexbypass2);
 
     if (!mutex2 || !mutex1) {
-        printf("If you're using a modified GT executable that supports multiboxing (not meaning patcher that comes with INZERNAL)\n"
+        printf(
+            "If you're using a modified GT executable that supports multiboxing (not meaning patcher that comes with INZERNAL)\n"
             "Then just ignore this warning, although some things might be broken if the file size is different from original, otherwise should be fine.\n"
             "If that's not the case, you are probably using wrong gt version, or something went horribly wrong.\n");
         return true;
@@ -284,8 +282,7 @@ bool gt::patch_mutex() {
 
     //the length will probably change with each GT version so I have to remember to change this
     //(no way im calculating the offset by adding another sig for where to jump etcetc) well prob will actually if I get bored
-    utils::patch_bytes<2>(mutex2, "\xEB\x53"); 
-
+    utils::patch_bytes<2>(mutex2, "\xEB\x53");
 
     //fow now mutex bypass only works with patcher, since I was too lazy to add proper handle closing thats required for injector
     //will add it prob by V0.6
