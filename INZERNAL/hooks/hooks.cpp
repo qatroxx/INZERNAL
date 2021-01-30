@@ -34,7 +34,7 @@ void hooks::init_endscene() {
 
     static types::time timer = std::chrono::system_clock::now();
     static int tries = 0;
-    if (tries > 0 && utils::run_at_interval(timer, 0.2f)) //Possibly fix crash things when using patcher
+    if (tries > 0 && !utils::run_at_interval(timer, 0.2f)) //Possibly fix crash things when using patcher for a minority of ppl
         return;
   
 
