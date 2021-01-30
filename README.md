@@ -12,6 +12,8 @@
 
 ### Setup tutorial
 [![INZERNAL setup tutorial](https://i.ytimg.com/vi/0408qVbICEI/hqdefault.jpg)](https://www.youtube.com/watch?v=0408qVbICEI "INZERNAL setup tutorial")
+* **F2 opens the menu**
+* **For some people, patched exe will instantly exit on start, opt to use injector if this is the case**
 
 # 
 
@@ -34,6 +36,7 @@
 * F3 will uninject INZERNAL and restore everything (Built into INZERNAL)
 * F4 will quit injector
 * Requires admin permissions due to growtopia changing token permissions
+* Also should work with any other injector of your choice
 
 # 
 
@@ -48,7 +51,7 @@
 
 ### Verified compatible Growtopia versions
 * Some patterns might be outdated for some versions
-* For now going to stick to **V3.51** with spoofing to latest version, I suggest using the
+* For now going to stick to **V3.51** with spoofing to latest version
 * Find version binaries [here](https://github.com/ama6nen/INZERNAL/tree/main/gt)
 * Verified working Growtopia versions are
   * V3.51 (Recommended version)
