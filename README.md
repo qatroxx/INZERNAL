@@ -1,4 +1,8 @@
 # INZERNAL
+
+## INZERNAL has been discontinued for public usage and a private version that is much better will only continue existing for SM members.
+## I will not remove existing features and keep everything as is for now, but no more updates will come from now on.
+
 #### Growtopia internal cheat focused around clean code, random features, and framework/sdk
 
 
