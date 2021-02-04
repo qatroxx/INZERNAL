@@ -106,6 +106,10 @@ class RTVar {
         if (pair && pair->m_values.size() >= 1)
             pair->m_values[0] = value;
     }
+    void add(const std::string& key, std::string value) {
+        auto pair = append(key + "|" + value);
+
+    }
     std::string serialize() {
         std::string ret{};
         for (auto& val : m_pairs) {

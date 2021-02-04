@@ -7,23 +7,11 @@
 void menu::cheats_tab() {
     auto local = sdk::GetGameLogic()->GetLocalPlayer();
 
-    //SELF TODO:
-    //Red punch shit
+
 
     //commented for now - added too many things and things are pretty messy ATM
     //TODO: move to enhancements or smth
-    //static std::string meme = "action|";
-    //static int type = 2;
-    //imwrap::inputstring("Packet", &meme, ImGuiInputTextFlags_Multiline);
-    //ImGui::InputInt("Packet type", &type);
-    //if (ImGui::Button("Send packet")) {
-    //    std::string copy = meme;
-    //    while (utils::replace(copy, ";;", "\n"))
-    //        ;
-
-    //    gt::send(type, copy, true);
-    //}
-    
+  
     //commented for now - added too many things and things are pretty messy ATM
     /*   static SurfaceAnim* surfaceanim = nullptr;
     if (!surfaceanim && global::app) {

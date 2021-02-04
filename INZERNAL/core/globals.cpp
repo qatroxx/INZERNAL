@@ -22,7 +22,7 @@ namespace opt {
 
 	//enhanchements 
 	float		fps_limit	= 144.0f;	//fps limit gets forced to this
-	std::string	gt_version	= "3.52";	//gt version gets spoofed to this
+	std::string	gt_version	= "3.56";	//gt version gets spoofed to this
 	std::string	gt_supported= "3.51";	//the gt version for which INZERNAL was built for. Probably wont work for other versions.
 
 	bool		spoof_login	= true;		//whether or not to spoof mac, hash2, wk, rid, etc on login. GT version spoofed even when off.
@@ -76,7 +76,7 @@ namespace global {
 		uintptr_t	gt		= 0;		//	growtopia base address
 		bool		load	= false;	//	menu/imgui initialization status
 		bool		draw	= false;	//	menu draw status. set to true for menu to show up when you inject
-		std::string	version	= "V0.6 Beta";	//	INZERNAL version
+		std::string	version	= "V0.6 public";	//	INZERNAL version
 		float		fade	= 0.f;		//	does not matter, will get automatically updated
 		charstate_t state{};			//	state info of player that may be modified so that we can restore it later.
 }

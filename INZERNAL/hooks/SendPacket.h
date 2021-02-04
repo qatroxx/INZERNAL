@@ -19,13 +19,13 @@ class SendPacketHook {
             auto hash_str = mac + "RT";
             auto hash2 = HashString(hash_str.c_str(), hash_str.length());
 
-         /*   static bool once = false;
+            /*   static bool once = false;
             if (!once) {
                 var.get("game_version") != 
                     gt::send_varlist_self({ "OnAddNotification",  })
                 once = true;
             }*/
-         
+
             if (var.get("game_version") != opt::gt_version)
                 var.set("game_version", opt::gt_version);
 
