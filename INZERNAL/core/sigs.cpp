@@ -44,7 +44,7 @@ void sigs::init() {
     if (!bp) //will be invalid if ban bypass already patched, so we are doing this.
         add_pattern("gt::patch_banbypass", "00 3B C1 90 90 85 C9", sig::type::direct, 3);
 
-    add_pattern("sdk::GetGameLogic", "E8 ? ? ? ? 8b 17 ? 8d 88", sig::type::call);
+    add_pattern("sdk::GetGameLogic", "E8 ? ? ? ? 8B 17 48 8D ? ? ? ? ? E8 ? ? ? ? 48 8B", sig::type::call);
     add_pattern("WorldCamera::WorldToScreen", "00 e8 ? ? ? ? 49 8b ? ? 41 ? 00 04", sig::type::call, 1);
     add_pattern("sdk::GetClient", "E8 ? ? ? ? 45 ? ? 89 ? ? ? 48 8D ? ? 48", sig::type::call);
 
@@ -52,7 +52,7 @@ void sigs::init() {
     hookmgr->add_hook("BaseApp::SetFPSLimit", "00 00 0F 57 C0 0F 2F C8 72", sig::type::fstart, hooks::BaseApp_SetFPSLimit);
     hookmgr->add_hook("LogMsg", "00 28 00 00 45", sig::type::fstart, hooks::LogMsg);
     hookmgr->add_hook("NetAvatar::CanMessageT4", "48 8b ce e8 ? ? ? ? 84 c0 74 ? e8", sig::type::call, hooks::NetAvatar_CanMessageT4, 3);
-    hookmgr->add_hook("SendPacketRaw", "00 81 FE 40 42 0F 00", sig::type::fstart, hooks::SendPacketRaw);
+    hookmgr->add_hook("SendPacketRaw", "00 81 FF 40 42 0F 00 7E 13", sig::type::fstart, hooks::SendPacketRaw);
     hookmgr->add_hook("HandleTouch", "83 B8 ?? ?? ?? ?? 12 75", sig::type::fstart, hooks::HandleTouch);
     hookmgr->add_hook("WorldCamera_OnUpdate", "89 43 10 0f 2f", sig::type::fstart, hooks::WorldCamera_OnUpdate);
     hookmgr->add_hook("SendPacket", "02 00 00 00 e8 ? ? ? ? 90 48 8d 4c 24 50", sig::type::call, hooks::SendPacket, 4);
@@ -60,9 +60,9 @@ void sigs::init() {
     hookmgr->add_hook("CanSeeGhosts", "04 00 00 00 e8 ? ? ? ? 8b c8 e8", sig::type::call, hooks::CanSeeGhosts, 11);
     hookmgr->add_hook("NetHTTP::Update", "05 4D 01 00 00 89 ?? ?? 00", sig::type::fstart, hooks::NetHTTP_Update);
     hookmgr->add_hook("App::Update", "00 E8 ? ? ? ? C6 ?? ? ? 00 00 01 B9 ? ? 00 00", sig::type::fstart, hooks::App_Update);
-    hookmgr->add_hook("TileExtra::Serialize", "04 85 c0 0f 95 c0 88 83 ? ? 00", sig::type::fstart, hooks::TileExtra_Serialize);
+    hookmgr->add_hook("TileExtra::Serialize", "04 ? C0 0F ? C0 88 83 ? ? 00", sig::type::fstart, hooks::TileExtra_Serialize);
     hookmgr->add_hook("NetAvatar::OnPunched", "4C 8B C3 E8 ? ? ? ? 33", sig::type::call, hooks::OnPunched, 3);
-    hookmgr->add_hook("Tile::GetFruitBloomProgressPercent", "04 66 ?? ?? B9 FD", sig::type::fstart, hooks::GetFruitBloomProgressPercent);
+    hookmgr->add_hook("Tile::GetFruitBloomProgressPercent", "04 66 ?? ?? ?? FD FF 00 00", sig::type::fstart, hooks::GetFruitBloomProgressPercent);
     hookmgr->add_hook("GameLogicComponent::DialogIsOpened", "c8 e8 ? ? ? ? 84 c0 74 ? 48", sig::type::call, hooks::DialogIsOpened, 1);
     add_pattern("NetAvatar::SetCharacterMods", "E8 ? ? ? ? e9 ? ? ? ? 4C 8d ?? ?? ?? ?? ?? 4C", sig::type::call);
     add_pattern("GetSurfaceAnim", "48 ? ? 20 41 ? 01 e8", sig::type::call, 7);
