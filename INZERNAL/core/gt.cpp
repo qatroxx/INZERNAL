@@ -298,12 +298,12 @@ void gt::hit_tile(CL_Vec2i where) {
 
     GameUpdatePacket packet{ 0 };
     packet.type = PACKET_TILE_CHANGE_REQUEST;
-    packet.item = 18;
+    packet.item_id = 18;
     packet.int_x = where.x;
     packet.int_y = where.y;
     auto pos = local->GetPos();
-    packet.pos_x = pos.x;
-    packet.pos_y = pos.y;
+    packet.vec_x = pos.x;
+    packet.vec_y = pos.y;
     gt::send(&packet);
 }
 
@@ -314,17 +314,17 @@ void gt::place_tile(int id, CL_Vec2i where) {
 
     GameUpdatePacket packet{ 0 };
     packet.type = PACKET_TILE_CHANGE_REQUEST;
-    packet.item = id;
+    packet.item_id = id;
     packet.int_x = where.x;
     packet.int_y = where.y;
     auto pos = local->GetPos();
-    packet.pos_x = pos.x;
-    packet.pos_y = pos.y;
+    packet.vec_x = pos.x;
+    packet.vec_y = pos.y;
     gt::send(&packet);
 }
 
 void gt::wrench_tile(CL_Vec2i where) {
-    auto local = sdk::GetGameLogic()->GetLocalPlayer();
+     auto local = sdk::GetGameLogic()->GetLocalPlayer();
     if (!local)
         return;
 
