@@ -21,7 +21,7 @@ GTClass WorldTileMap {
     //make own func instead of calling, to verify our tiles are correct!
 
     Tile* GetTileSafe(int col, int row) {
-        if (col >= size.x || row <= size.y || col < 0 || row < 0)
+        if (col >= size.x || row >= size.y || col < 0 || row < 0)
             return nullptr;
         else
             return &tiles[col + row * size.x];
