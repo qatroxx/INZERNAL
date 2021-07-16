@@ -58,10 +58,10 @@ class SendPacketHook {
 
             packet = var.serialize();
         }
-        int asdasd = packet.find("/warp ");
-        if (asdasd > -1) {
-            string asd = packet.substr(asdasd + 6);
-            gt::send(3, "action|join_request\nname|" + asd);
+        auto warp = packet.find("/warp ");
+        if (warp != -1) {
+           gt::send(3, "action|join_request\nname|" + packet.substr(warp + 6));
+           return; //dont send the /warp chat message
         }
 
         if (logging::enabled && logging::console & logging::sendpacket)
